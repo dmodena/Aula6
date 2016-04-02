@@ -39,4 +39,9 @@ public class Livro extends Volume {
     public void setAnoPublicacao(int anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
     }
+    
+    @Override
+    public String imprimir() {
+        return "Livro editora " + editora + " ano " + anoPublicacao + ".";
+    }
 }

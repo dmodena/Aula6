@@ -5,17 +5,26 @@
  */
 package com.dmodena.view;
 
+import com.dmodena.model.Volume;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author dmodena
  */
 public class FrmCatalogo extends javax.swing.JFrame {
-
+    ArrayList<Volume> volumes;
+    
     /**
      * Creates new form FrmCatalogo
      */
     public FrmCatalogo() {
         initComponents();
+        rdCd.setSelected(true);
+        this.setLocationRelativeTo(null);
+        volumes = new ArrayList<>();
     }
 
     /**
@@ -40,6 +49,7 @@ public class FrmCatalogo extends javax.swing.JFrame {
         lstVolumes = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastrar Volumes");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro de Volumes"));
 
@@ -76,7 +86,7 @@ public class FrmCatalogo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rdLivro))
                     .addComponent(btnCadastrar))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,7 +118,7 @@ public class FrmCatalogo extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +127,7 @@ public class FrmCatalogo extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,9 +155,25 @@ public class FrmCatalogo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        
+        if(rdCd.isSelected()) {
+            DlgCatalogoCd dialogCd = new DlgCatalogoCd(this, true);
+            dialogCd.setVisible(true);
+        }
+        else if(rdDvd.isSelected()) JOptionPane.showMessageDialog(this, "Implementar funcionalidade semelhante a cadastrar CD", "Cadastrar DVD", JOptionPane.PLAIN_MESSAGE);
+        else if(rdLivro.isSelected()) JOptionPane.showMessageDialog(this, "Implementar funcionalidade semelhante a cadastrar CD", "Cadastrar Livro", JOptionPane.PLAIN_MESSAGE);        
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    public void adicionarVolume(Volume volume) {
+        DefaultListModel<String> modelVolumes = new DefaultListModel<>();
+        volumes.add(volume);
+        
+        for(Volume v : volumes) {
+            modelVolumes.addElement(v.imprimir());
+        }
+        
+        lstVolumes.setModel(modelVolumes);
+    }
+    
     /**
      * @param args the command line arguments
      */

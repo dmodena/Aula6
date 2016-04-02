@@ -41,4 +41,9 @@ public class Dvd extends Volume {
     public void setExtras(boolean extras) {
         this.extras = extras;
     }
+    
+    @Override
+    public String imprimir() {
+        return "DVD " + tipo + (extras == true ? "com" : "sem") + " extras.";
+    }
 }

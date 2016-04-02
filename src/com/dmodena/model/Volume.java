@@ -56,4 +56,6 @@ public abstract class Volume {
     public void setAutores(ArrayList<String> autores) {
         this.autores = autores;
     }    
+    
+    public abstract String imprimir();
 }

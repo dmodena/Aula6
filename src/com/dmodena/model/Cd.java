@@ -39,4 +39,9 @@ public class Cd extends Volume {
     public void setIdFaixas(ArrayList<String> idFaixas) {
         this.idFaixas = idFaixas;
     }
+    
+    @Override
+    public String imprimir() {
+        return "CD de " + genero + " com " + idFaixas.size() + " faixas.";
+    }
 }

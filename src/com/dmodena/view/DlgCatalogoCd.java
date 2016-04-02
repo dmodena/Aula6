@@ -7,13 +7,17 @@ package com.dmodena.view;
 
 import com.dmodena.model.Cd;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author dmodena
  */
 public class DlgCatalogoCd extends javax.swing.JDialog {
+    FrmCatalogo frameCatalogo;
     Cd cd;
+    DefaultListModel<String> modelAutores = new DefaultListModel<>();
+    DefaultListModel<String>modelFaixas = new DefaultListModel<>();
     
     /**
      * Creates new form dlgCd
@@ -21,6 +25,8 @@ public class DlgCatalogoCd extends javax.swing.JDialog {
     public DlgCatalogoCd(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(parent);
+        frameCatalogo = (FrmCatalogo) parent;
     }
 
     /**
@@ -54,6 +60,7 @@ public class DlgCatalogoCd extends javax.swing.JDialog {
         btnCadastrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastrar CD");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -79,6 +86,11 @@ public class DlgCatalogoCd extends javax.swing.JDialog {
         jLabel6.setText("Faixa");
 
         btnAdicionarFaixa.setText("Adicionar Faixa");
+        btnAdicionarFaixa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarFaixaActionPerformed(evt);
+            }
+        });
 
         jScrollPane2.setViewportView(lstFaixas);
 
@@ -166,7 +178,7 @@ public class DlgCatalogoCd extends javax.swing.JDialog {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCadastrar)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -190,7 +202,13 @@ public class DlgCatalogoCd extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarAutorActionPerformed
+        if(!tfAutor.getText().trim().isEmpty()) {
+            modelAutores.addElement(tfAutor.getText());
+            lstAutores.setModel(modelAutores);
+        }
         
+        tfAutor.setText("");
+        tfAutor.requestFocus();
     }//GEN-LAST:event_btnAdicionarAutorActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -213,8 +231,21 @@ public class DlgCatalogoCd extends javax.swing.JDialog {
             }
             
             cd = new Cd(id, descricao, anoAquisicao, autores, genero, faixas);
+            
+            frameCatalogo.adicionarVolume(cd);
+            this.dispose();
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnAdicionarFaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarFaixaActionPerformed
+        if(!tfFaixa.getText().trim().isEmpty()) {
+            modelFaixas.addElement(tfFaixa.getText());
+            lstFaixas.setModel(modelFaixas);
+        }
+        
+        tfFaixa.setText("");
+        tfFaixa.requestFocus();
+    }//GEN-LAST:event_btnAdicionarFaixaActionPerformed
 
     private boolean cadastroValido() {
         boolean valido = false;
@@ -222,9 +253,9 @@ public class DlgCatalogoCd extends javax.swing.JDialog {
         if(!(tfId.getText().trim().isEmpty() ||
         tfDescricao.getText().trim().isEmpty() ||
         tfAnoAquisicao.getText().trim().isEmpty() ||
-        lstAutores.getModel().getSize() > 0 ||
+        modelAutores.isEmpty() ||
         tfGenero.getText().trim().isEmpty() ||
-        lstFaixas.getModel().getSize() > 0))
+        modelFaixas.isEmpty()))
             valido = true;            
         
         return valido;
